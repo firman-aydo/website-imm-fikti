@@ -64,7 +64,6 @@
             box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
         }
         
-        /* Tambahan khusus tombol logout */
         .nav-link.logout-btn:hover { background: #fee2e2; color: #ef4444; }
 
         .btn-back {
@@ -120,13 +119,11 @@
         }
         .btn-cancel:hover { background: #e2e8f0; }
 
-        /* Tabel Tombol Aksi */
         .btn-action { border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: 500; }
         .btn-edit { background: #e0f2fe; color: #0284c7; margin-right: 5px; }
         .btn-edit:hover { background: #bae6fd; }
         .btn-delete { background: #fee2e2; color: #ef4444; }
         .btn-delete:hover { background: #fecaca; }
-
     </style>
 </head>
 <body>
@@ -179,7 +176,6 @@
 
         <div class="form-card">
             <form id="formAdmin">
-                <!-- Input rahasia untuk menyimpan ID saat proses edit berjalan -->
                 <input type="hidden" id="edit-id" name="edit_id" value="">
 
                 <div class="grid-2-cols">
@@ -197,7 +193,6 @@
                     </div>
                 </div>
 
-                <!-- Kolom Nama Penulis -->
                 <div class="form-group">
                     <label>Nama Penulis</label>
                     <input type="text" id="input-penulis" name="penulis" class="form-control" placeholder="Contoh: Tim Redaksi IMM FIKTI" required>
@@ -249,26 +244,78 @@
 
     <!-- SCRIPT LOGIKA JAVASCRIPT -->
     <script>
+        // Fungsi Pembantu Kompresi Gambar Otomatis di Browser (Anti Limit Vercel)
+        async function kompresGambar(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        const MAX_WIDTH = 1200;
+                        const MAX_HEIGHT = 1200;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            const fileKompres = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".webp", {
+                                type: 'image/webp',
+                                lastModified: Date.now()
+                            });
+                            resolve(fileKompres);
+                        }, 'image/webp', 0.8);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         let dataGlobal = []; 
 
-        // 1. LOGIKA UNTUK SUBMIT FORM (CREATE & UPDATE)
+        // 1. LOGIKA UNTUK SUBMIT FORM (CREATE & UPDATE BERITA/PROKER)
         document.getElementById('formAdmin').addEventListener('submit', async function(e) {
             e.preventDefault();
             const form = e.target;
             const tombol = document.getElementById('btnSimpan');
             const editId = document.getElementById('edit-id').value; 
             
-            tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...';
+            tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres & Memproses...';
             tombol.disabled = true;
 
-            const formData = new FormData(form);
-            
-            let urlAPI = '/tambah-berita';
-            if (editId !== '') {
-                urlAPI = `/edit-berita/${editId}`;
-            }
-
             try {
+                const formData = new FormData(form);
+                
+                // Kompres foto berita jika diunggah
+                const inputFoto = document.getElementById('input-foto');
+                if (inputFoto.files && inputFoto.files[0]) {
+                    const fileKompres = await kompresGambar(inputFoto.files[0]);
+                    formData.set('foto', fileKompres);
+                }
+
+                let urlAPI = '/tambah-berita';
+                if (editId !== '') {
+                    urlAPI = `/edit-berita/${editId}`;
+                }
+
                 const respon = await fetch(urlAPI, { method: 'POST', body: formData });
                 const hasil = await respon.json();
 
@@ -280,7 +327,7 @@
                     alert('Gagal: ' + hasil.pesan);
                 }
             } catch (error) {
-                alert('Gagal terhubung ke server.');
+                alert('Gagal memproses gambar atau terhubung ke server.');
             } finally {
                 tombol.disabled = false;
                 if (document.getElementById('edit-id').value !== '') {
@@ -398,7 +445,7 @@
         window.onload = muatTabelAdmin;
     </script>
 
-    <!-- Script Upload Banner -->
+    <!-- Script Upload Banner dengan Kompresi Otomatis -->
     <script>
         const formBanner = document.getElementById('formBanner');
         
@@ -409,13 +456,24 @@
                 const tombol = document.getElementById('btnSimpanBanner');
                 const teksAwal = tombol.innerHTML;
                 
-                tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sedang Mengunggah...';
+                tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengompres & Mengunggah...';
                 tombol.disabled = true; 
                 
                 try {
+                    const inputFoto = this.querySelector('input[name="foto_banner"]');
+                    let fileToUpload = inputFoto.files[0];
+
+                    if (fileToUpload) {
+                        // Kompres otomatis ukuran gambar di browser sebelum dikirim
+                        fileToUpload = await kompresGambar(fileToUpload);
+                    }
+
+                    const formData = new FormData();
+                    formData.append('foto_banner', fileToUpload);
+
                     const respon = await fetch('/upload-banner', {
                         method: 'POST', 
-                        body: new FormData(this)
+                        body: formData
                     });
                     
                     const hasil = await respon.json();
@@ -428,7 +486,7 @@
                     }
                 } catch (err) { 
                     console.error("Detail Error:", err);
-                    alert(' Gagal terhubung ke server.'); 
+                    alert(' Gagal memproses gambar atau terhubung ke server.'); 
                 } finally {
                     tombol.innerHTML = teksAwal;
                     tombol.disabled = false;
