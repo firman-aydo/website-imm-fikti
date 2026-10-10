@@ -138,17 +138,12 @@
             <h2>Admin Portal</h2>
         </div>
         <nav class="nav-menu">
-            <!-- REVISI: Link diubah ke rute Flask (/admin) -->
             <a href="/ruang-dapuradmin-immfikti" class="nav-link active">
                 <i class="fa-solid fa-pen-to-square"></i> Kelola Publikasi
             </a>
-            
-            <!-- REVISI: Link diubah ke rute Flask (/kepengurusan) -->
             <a href="/kepengurusan" class="nav-link">
                 <i class="fa-solid fa-users-gear"></i> Kelola Kepengurusan
             </a>
-            
-            <!-- REVISI: Tombol Logout -->
             <a href="/logout" class="nav-link logout-btn" style="color: #ef4444; margin-top: 10px;">
                 <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
             </a>
@@ -156,7 +151,6 @@
         <a href="index.html" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Menuju Website
         </a>
-        
     </aside>
 
     <!-- KONTEN UTAMA -->
@@ -203,7 +197,7 @@
                     </div>
                 </div>
 
-                <!-- TAMBAHAN: Kolom Nama Penulis -->
+                <!-- Kolom Nama Penulis -->
                 <div class="form-group">
                     <label>Nama Penulis</label>
                     <input type="text" id="input-penulis" name="penulis" class="form-control" placeholder="Contoh: Tim Redaksi IMM FIKTI" required>
@@ -269,9 +263,9 @@
 
             const formData = new FormData(form);
             
-            let urlAPI = 'http://127.0.0.1:5000/tambah-berita';
+            let urlAPI = '/tambah-berita';
             if (editId !== '') {
-                urlAPI = `http://127.0.0.1:5000/edit-berita/${editId}`;
+                urlAPI = `/edit-berita/${editId}`;
             }
 
             try {
@@ -286,7 +280,7 @@
                     alert('Gagal: ' + hasil.pesan);
                 }
             } catch (error) {
-                alert('Gagal terhubung. Pastikan terminal Python app.py sedang berjalan.');
+                alert('Gagal terhubung ke server.');
             } finally {
                 tombol.disabled = false;
                 if (document.getElementById('edit-id').value !== '') {
@@ -301,7 +295,7 @@
         async function muatTabelAdmin() {
             const tbody = document.getElementById('tabel-riwayat');
             try {
-                const respon = await fetch('http://127.0.0.1:5000/ambil-berita');
+                const respon = await fetch('/ambil-berita');
                 const hasil = await respon.json();
 
                 if (hasil.status === 'sukses' && hasil.data.length > 0) {
@@ -345,7 +339,6 @@
             document.getElementById('input-judul').value = dataTerpilih.judul;
             document.getElementById('input-kategori').value = dataTerpilih.kategori;
             document.getElementById('input-isi').value = dataTerpilih.isi_konten;
-            // TAMBAHAN: Mengisi input penulis
             document.getElementById('input-penulis').value = dataTerpilih.penulis || 'Tim Redaksi IMM FIKTI';
             document.getElementById('edit-id').value = id; 
 
@@ -389,7 +382,7 @@
             if (!yakin) return;
 
             try {
-                const respon = await fetch(`http://127.0.0.1:5000/hapus-berita/${id}`, { method: 'DELETE' });
+                const respon = await fetch(`/hapus-berita/${id}`, { method: 'DELETE' });
                 const hasil = await respon.json();
 
                 if (hasil.status === 'sukses') {
@@ -405,7 +398,7 @@
         window.onload = muatTabelAdmin;
     </script>
 
-    <!-- REVISI: Script Upload Banner -->
+    <!-- Script Upload Banner -->
     <script>
         const formBanner = document.getElementById('formBanner');
         
@@ -420,7 +413,7 @@
                 tombol.disabled = true; 
                 
                 try {
-                    const respon = await fetch('http://127.0.0.1:5000/upload-banner', {
+                    const respon = await fetch('/upload-banner', {
                         method: 'POST', 
                         body: new FormData(this)
                     });
@@ -435,7 +428,7 @@
                     }
                 } catch (err) { 
                     console.error("Detail Error:", err);
-                    alert(' Gagal terhubung ke server Python! Pastikan app.py sedang berjalan (Run).'); 
+                    alert(' Gagal terhubung ke server.'); 
                 } finally {
                     tombol.innerHTML = teksAwal;
                     tombol.disabled = false;
