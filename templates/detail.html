@@ -118,7 +118,7 @@
             </h1>
         </header>
 
-        <!-- Meta Info (REVISI LOGO IMM) -->
+        <!-- Meta Info -->
         <div class="article-meta">
             <div class="author-avatar" style="background: transparent; border: 1px solid #e2e8f0;">
                 <img src="{{ url_for('static', filename='assets/logo-imm.png') }}" alt="Logo IMM" style="width: 80%; height: 80%; object-fit: contain;">
@@ -184,11 +184,10 @@
         async function muatBeritaTerkait() {
             const container = document.getElementById('grid-berita-terkait');
             try {
-                const respon = await fetch('http://127.0.0.1:5000/ambil-berita');
+                const respon = await fetch('/ambil-berita');
                 const hasil = await respon.json();
 
                 if (hasil.status === 'sukses' && hasil.data.length > 0) {
-                    // Filter agar berita yang sedang dibaca tidak muncul lagi di daftar terkait
                     const beritaLain = hasil.data.filter(item => item._id !== currentId).slice(0, 3);
 
                     if (beritaLain.length > 0) {
@@ -215,7 +214,6 @@
             }
         }
 
-        // Tampilan Empty State Universal
         function tampilkanEmptyState(targetElement, pesan) {
             targetElement.innerHTML = `
                 <div class="empty-state" style="grid-column: 1 / -1;">

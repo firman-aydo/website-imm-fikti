@@ -59,23 +59,19 @@
             <h2>Admin Portal</h2>
         </div>
         <nav class="nav-menu">
-            <!-- REVISI: Perbaikan nama class -->
             <a href="/ruang-dapuradmin-immfikti" class="nav-link">
                 <i class="fa-solid fa-pen-to-square"></i> Kelola Publikasi
             </a>
 
-            <!-- REVISI: Menambahkan class active  -->
             <a href="/kepengurusan" class="nav-link active">
                 <i class="fa-solid fa-users-gear"></i> Kelola Kepengurusan
             </a>
 
-            <!-- REVISI: Perbaikan desain tombol logout -->
             <a href="/logout" class="nav-link logout-btn" style="color: #ef4444; margin-top: 10px;">
                 <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
             </a>
         </nav>
         
-        <!-- REVISI: Menambahkan tombol kembali ke website -->
         <a href="index.html" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Menuju Website
         </a>
@@ -84,7 +80,6 @@
     <!-- KONTEN UTAMA -->
     <main class="main-content">
         
-        <!-- BAGIAN FORM -->
         <div class="header-section">
             <h1 id="form-title">Data Kepengurusan Kader</h1>
             <p id="form-subtitle">Tambahkan profil kader yang menjabat dalam struktur organisasi PK IMM FIKTI.</p>
@@ -149,7 +144,6 @@
             </form>
         </div>
 
-        <!-- BAGIAN TABEL -->
         <div class="header-section" style="margin-top: 4rem; margin-bottom: 1.5rem;">
             <h1>Daftar Isi Kepengurusan </h1>
             <p>Daftar kader yang masuk dalam kepengurusan.</p>
@@ -188,9 +182,9 @@
 
             const formData = new FormData(form);
             
-            let urlAPI = 'http://127.0.0.1:5000/tambah-pengurus';
+            let urlAPI = '/tambah-pengurus';
             if (editId !== '') {
-                urlAPI = `http://127.0.0.1:5000/edit-pengurus/${editId}`;
+                urlAPI = `/edit-pengurus/${editId}`;
             }
 
             try {
@@ -205,7 +199,7 @@
                     alert('Gagal: ' + hasil.pesan);
                 }
             } catch (error) {
-                alert('Gagal terhubung. Pastikan server Flask menyala.');
+                alert('Gagal terhubung ke server.');
             } finally {
                 tombol.disabled = false;
                 if (document.getElementById('edit-id').value !== '') {
@@ -220,7 +214,7 @@
         async function muatTabelPengurus() {
             const tbody = document.getElementById('tabel-pengurus');
             try {
-                const respon = await fetch('http://127.0.0.1:5000/ambil-pengurus');
+                const respon = await fetch('/ambil-pengurus');
                 const hasil = await respon.json();
 
                 if (hasil.status === 'sukses' && hasil.data.length > 0) {
@@ -240,7 +234,6 @@
                                 <span style="background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #475569;">
                                     ${item.jabatan}
                                 </span>
-                                <!-- REVISI: Menambahkan nama bidang di bawah jabatan agar lebih jelas -->
                                 <div style="font-size: 0.85rem; color: #64748b; margin-top: 6px;"><i class="fa-solid fa-sitemap"></i> ${item.bidang}</div>
                             </td>
                             <td style="padding: 1rem 1.5rem; color: #64748b; font-weight: 500;">
@@ -268,10 +261,7 @@
 
             document.getElementById('input-nama').value = dataTerpilih.nama;
             document.getElementById('input-jabatan').value = dataTerpilih.jabatan;
-            
-            // REVISI PENTING: Tambahkan ini agar opsi Bidang juga terisi otomatis
             document.getElementById('input-bidang').value = dataTerpilih.bidang; 
-            
             document.getElementById('input-periode').value = dataTerpilih.periode;
             document.getElementById('edit-id').value = id;
 
@@ -315,7 +305,7 @@
             if (!yakin) return;
 
             try {
-                const respon = await fetch(`http://127.0.0.1:5000/hapus-pengurus/${id}`, { method: 'DELETE' });
+                const respon = await fetch(`/hapus-pengurus/${id}`, { method: 'DELETE' });
                 const hasil = await respon.json();
 
                 if (hasil.status === 'sukses') {
@@ -328,7 +318,6 @@
             } catch (error) { alert('Terjadi kesalahan sistem.'); }
         }
 
-        // Muat otomatis
         window.onload = muatTabelPengurus;
     </script>
 </body>
