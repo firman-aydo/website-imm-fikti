@@ -34,7 +34,7 @@ function showSlides(n) {
 // ==========================================
 // 2. LOGIKA MENGAMBIL DAFTAR DATA (DENGAN PENCARIAN)
 // ==========================================
-const urlAPI = 'http://127.0.0.1:5000/ambil-berita';
+const urlAPI = '/ambil-berita';
 
 async function muatDataDinamis(kategoriFilter, batasJumlah, elementId, kataKunci = "") {
     const wadah = document.getElementById(elementId);
@@ -89,7 +89,7 @@ async function muatDataDinamis(kategoriFilter, batasJumlah, elementId, kataKunci
 
                 if (elementId.includes('semua')) {
                     htmlTambahan = `
-                        <div class="proker-list-item" onclick="window.location.href='http://127.0.0.1:5000/detail/${item._id}'" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        <div class="proker-list-item" onclick="window.location.href='/detail/${item._id}'" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                             <div class="proker-list-img">
                                 <span class="proker-badge badge-absolute">${item.kategori.toUpperCase()}</span>
                                 <img src="${item.foto_url}" alt="${item.judul}" style="height: 100%; object-fit: cover;">
@@ -101,7 +101,7 @@ async function muatDataDinamis(kategoriFilter, batasJumlah, elementId, kataKunci
                                     <span style="color: #d97706;">🕒</span> ${tanggalRapi}
                                 </div>
                                 <p style="color: #334155;">${item.isi_konten.substring(0, 150)}...</p>
-                                <a href="http://127.0.0.1:5000/detail/${item._id}" class="btn-read-more" style="color: #b91c1c; font-weight: 600; text-decoration: none;">READ MORE</a>
+                                <a href="/detail/${item._id}" class="btn-read-more" style="color: #b91c1c; font-weight: 600; text-decoration: none;">READ MORE</a>
                             </div>
                         </div>
                         <hr class="proker-divider">
@@ -112,7 +112,7 @@ async function muatDataDinamis(kategoriFilter, batasJumlah, elementId, kataKunci
                     const deskripsiSingkat = `<strong style="color: #ffffff; line-height: 1.4; display: block;">${item.judul}</strong>`;
                     
                     htmlTambahan = `
-                        <div class="proker-card" onclick="window.location.href='http://127.0.0.1:5000/detail/${item._id}'" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <div class="proker-card" onclick="window.location.href='/detail/${item._id}'" style="cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
                             <img src="${item.foto_url}" alt="${item.judul}" style="width: 100%; height: 200px; object-fit: cover;">
                             <div class="proker-info">
                                 <p class="proker-desc">${deskripsiSingkat}</p>
@@ -149,7 +149,7 @@ async function muatDetailData() {
     if (!wadahJudul) return;
 
     try {
-        const respon = await fetch(`http://127.0.0.1:5000/detail-berita/${id}`);
+        const respon = await fetch(`/detail-berita/${id}`);
         const hasil = await respon.json();
 
         if (hasil.status === 'sukses') {
@@ -179,7 +179,7 @@ async function muatHeroGrid(kategoriFilter, elementId) {
     if (!wadah) return; 
 
     try {
-        const respon = await fetch('http://127.0.0.1:5000/ambil-berita');
+        const respon = await fetch('/ambil-berita');
         const hasil = await respon.json();
 
         if (hasil.status === 'sukses') {
@@ -201,7 +201,7 @@ async function muatHeroGrid(kategoriFilter, elementId) {
 
             let htmlUtama = `
                 <!-- REVISI PENTING -->
-                <div class="hero-item-proker large" onclick="window.location.href='http://127.0.0.1:5000/detail/${itemUtama._id}'" style="cursor: pointer;">
+                <div class="hero-item-proker large" onclick="window.location.href='/detail/${itemUtama._id}'" style="cursor: pointer;">
                     <img src="${itemUtama.foto_url}" alt="${itemUtama.judul}">
                     <div class="hero-overlay">
                         <span class="proker-badge">${itemUtama.kategori.toUpperCase()}</span>
@@ -220,7 +220,7 @@ async function muatHeroGrid(kategoriFilter, elementId) {
 
                 htmlKecil += `
                     <!-- REVISI PENTING -->
-                    <div class="hero-item-proker ${classPosisi}" onclick="window.location.href='http://127.0.0.1:5000/detail/${item._id}'" style="cursor: pointer;">
+                    <div class="hero-item-proker ${classPosisi}" onclick="window.location.href='/detail/${item._id}'" style="cursor: pointer;">
                         <img src="${item.foto_url}" alt="${item.judul}">
                         <div class="hero-overlay">
                             <span class="proker-badge ${classBadge}">${item.kategori.toUpperCase()}</span>
@@ -254,7 +254,7 @@ async function muatDataPengurus() {
     }
 
     try {
-        const respon = await fetch('http://127.0.0.1:5000/ambil-pengurus');
+        const respon = await fetch('/ambil-pengurus');
         const hasil = await respon.json();
 
         if (hasil.status === 'sukses' && hasil.data.length > 0) {
@@ -400,7 +400,7 @@ async function muatSliderBeranda() {
     if (!wadahSlider) return; 
 
     try {
-        const respon = await fetch('http://127.0.0.1:5000/ambil-slider');
+        const respon = await fetch('/ambil-slider');
         const hasil = await respon.json();
 
         if (hasil.status === 'sukses' && hasil.data.length > 0) {
@@ -409,13 +409,11 @@ async function muatSliderBeranda() {
             totalSlideTersedia = hasil.data.length;
 
             hasil.data.forEach((item, index) => {
-                // Memberikan class 'aktif' pada gambar pertama agar langsung menapak (menghilangkan ruang putih)
                 const statusAktif = index === 0 ? 'aktif' : '';
                 
                 let overlayHTML = '';
                 if(item.judul !== "") {
-                    // Pastikan link detail sesuai dengan port peladen lokal
-                    let targetLink = item.link.startsWith('/detail') ? `http://127.0.0.1:5000${item.link}` : item.link;
+                    let targetLink = item.link;
 
                     overlayHTML = `
                         <div class="slide-overlay">
@@ -429,7 +427,6 @@ async function muatSliderBeranda() {
                     `;
                 }
 
-                // Menggabungkan foto dan overlay ke dalam item slide
                 wadahSlider.innerHTML += `
                     <div class="slide-item ${statusAktif}">
                         <img src="${item.foto_url}" alt="${item.jenis}">
@@ -506,11 +503,9 @@ window.onload = () => {
         kotakCari.addEventListener('input', (e) => {
             const teksPencarian = e.target.value;
             
-            // Cek apakah pengunjung sedang di halaman Berita
             if (document.getElementById('wadah-semua-berita')) {
                 muatDataDinamis('berita', 0, 'wadah-semua-berita', teksPencarian);
             } 
-            // Atau apakah pengunjung sedang di halaman Program Kerja
             else if (document.getElementById('wadah-semua-proker')) {
                 muatDataDinamis('proker', 0, 'wadah-semua-proker', teksPencarian);
             }
