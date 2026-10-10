@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta Tags Standar & SEO -->
+    <title>{{ berita.judul if berita else 'Detail Publikasi' }} - PK IMM FIKTI UMSU</title>
+    <meta name="description" content="{{ berita.isi_konten[:150] if berita else 'Portal berita IMM FIKTI UMSU' }}...">
+
+    <!-- OPEN GRAPH META TAGS (Untuk Preview WhatsApp, FB, LinkedIn, Twitter) -->
+    {% if berita %}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ berita.judul }}">
+    <meta property="og:description" content="{{ berita.isi_konten[:150] }}...">
+    <meta property="og:image" content="{{ berita.foto_url }}">
+    <meta property="og:site_name" content="PK IMM FIKTI UMSU">
+    {% endif %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 3rem auto 5rem;
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb { font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; font-family: 'Inter', sans-serif; }
+        .breadcrumb a { color: #dc2626; text-decoration: none; font-weight: 500; }
+        
+        .article-meta {
+            display: flex; align-items: center; gap: 15px;
+            margin: 1.5rem 0 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0;
+        }
+        .author-avatar {
+            width: 45px; height: 45px; border-radius: 50%; background: #fee2e2;
+            display: flex; align-items: center; justify-content: center; color: #dc2626; font-size: 1.2rem;
+        }
+
+        .article-body { font-family: 'Merriweather', serif; font-size: 1.12rem; line-height: 1.9; color: #334155; text-align: justify; }
+        .article-body p:first-of-type::first-letter {
+            font-size: 3.5rem; float: left; margin-right: 12px; line-height: 1; font-family: 'Poppins', sans-serif; font-weight: 700; color: #dc2626;
+        }
+        .article-body p { margin-bottom: 1.5rem; }
+
+        .share-section {
+            margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .btn-share { width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer; color: white; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-wa { background: #25D366; } .btn-fb { background: #1877F2; } .btn-link { background: #64748b; }
+
+        /* KARTU BERITA TERKAIT */
+        .related-card {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;
+            text-decoration: none; color: inherit; transition: all 0.3s ease; display: flex; flex-direction: column;
+        }
+        .related-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.06); border-color: #cbd5e1; }
+        .related-img { width: 100%; height: 130px; object-fit: cover; }
+        .related-content { padding: 1rem; }
+        .related-title { font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; color: #0f172a; margin: 0 0 0.5rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* DESAIN EMPTY STATE (RUANG KOSONG) */
+        .empty-state { text-align: center; padding: 2.5rem 1rem; background: #f8fafc; border-radius: 10px; border: 1px dashed #cbd5e1; margin-top: 1rem; }
+        .empty-state i { font-size: 2.5rem; color: #94a3b8; margin-bottom: 0.8rem; }
+        .empty-state p { margin: 0; color: #64748b; font-size: 0.95rem; }
+
+        @media (max-width: 768px) {
+            .article-container { padding: 1.5rem; margin-top: 1rem; border-radius: 0; box-shadow: none; }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- NAVBAR SECTION -->
+    <nav class="navbar-new">
+        <div class="container nav-wrapper" style="position: relative;"> 
+            <div class="brand-logo">
+                <img src="{{ url_for('static', filename='assets/logo-umsu.png') }}" alt="Logo UMSU" class="logo-kampus">
+                <img src="{{ url_for('static', filename='assets/logo-unggul.png') }}" alt="Logo Akreditasi" class="logo-unggul">
+                <img src="{{ url_for('static', filename='assets/logo-imm.png') }}" alt="Logo IMM" class="logo-imm">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Beranda</a></li>
+                <li><a href="/tentang" class="nav-link">Tentang IMM</a></li>
+                <li><a href="/pengurus" class="nav-link">Kepengurusan</a></li>
+                <li><a href="/proker" class="nav-link">Program Kerja</a></li>
+                <li><a href="/berita" class="nav-link">Berita IMM</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="navbar-divider"></div>
+
+    <!-- AREA KONTEN UTAMA -->
+    <main class="article-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/">Beranda</a> &raquo; 
+            <a href="/{{ berita.kategori | lower if berita else 'berita' }}">{{ berita.kategori | title if berita else 'Kategori' }}</a> &raquo; 
+            <span>Membaca Artikel</span>
+        </div>
+
+        <!-- Header Artikel -->
+        <header>
+            <span style="background: #fee2e2; color: #dc2626; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">
+                {{ berita.kategori if berita else 'INFORMASI' }}
+            </span>
+            <h1 style="font-family: 'Poppins', sans-serif; font-size: 2.1rem; color: #0f172a; margin: 0.8rem 0; line-height: 1.3;">
+                {{ berita.judul if berita else 'Judul Tidak Ditemukan' }}
+            </h1>
+        </header>
+
+        <!-- Meta Info (REVISI LOGO IMM) -->
+        <div class="article-meta">
+            <div class="author-avatar" style="background: transparent; border: 1px solid #e2e8f0;">
+                <img src="{{ url_for('static', filename='assets/logo-imm.png') }}" alt="Logo IMM" style="width: 80%; height: 80%; object-fit: contain;">
+            </div>
+            <div>
+                <h4 style="margin: 0; font-family: 'Poppins', sans-serif; font-size: 0.95rem;">
+                    {{ berita.penulis if berita and berita.penulis else 'Tim Redaksi IMM FIKTI' }}
+                </h4>
+                <p style="margin: 0; font-size: 0.85rem; color: #64748b;">
+                    <i class="fa-regular fa-calendar"></i> Dipublikasikan pada {{ berita.tanggal_dibuat.strftime('%d %B %Y') if berita and berita.tanggal_dibuat else 'Hari Ini' }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Gambar Utama -->
+        <div style="width: 100%; margin-bottom: 2rem;">
+            <img src="{{ berita.foto_url if berita else '' }}" alt="Dokumentasi" style="width: 100%; max-height: 420px; object-fit: cover; border-radius: 10px;">
+        </div>
+
+        <!-- Teks Konten -->
+        <article class="article-body">
+            {% if berita %}
+                {% for paragraf in berita.isi_konten.split('\n') %}
+                    {% if paragraf.strip() %}
+                        <p>{{ paragraf }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>Konten berita tidak dapat dimuat.</p>
+            {% endif %}
+        </article>
+
+        <!-- Tombol Share -->
+        <div class="share-section">
+            <p style="font-weight: 600; font-family: 'Poppins', sans-serif; margin: 0;">Bagikan:</p>
+            <button class="btn-share btn-wa" onclick="shareWA()"><i class="fa-brands fa-whatsapp"></i></button>
+            <button class="btn-share btn-fb" onclick="shareFB()"><i class="fa-brands fa-facebook-f"></i></button>
+            <button class="btn-share btn-link" onclick="copyLink()"><i class="fa-solid fa-link"></i></button>
+        </div>
+
+        <!-- SEKSI BERITA TERKAIT -->
+        <section style="margin-top: 3.5rem; padding-top: 2rem; border-top: 2px dashed #f1f5f9;">
+            <h3 style="font-family: 'Poppins', sans-serif; color: #0f172a; margin-bottom: 1.2rem; font-size: 1.25rem;">
+                <i class="fa-solid fa-newspaper" style="color: #dc2626;"></i> Publikasi Lainnya
+            </h3>
+            
+            <div id="grid-berita-terkait" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem;">
+                <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <div style="background: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem; margin-top: 4rem;">
+        <p style="margin: 0; font-size: 0.9rem;">&copy; 2026 PK IMM FIKTI UMSU. All Rights Reserved.</p>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        const currentId = "{{ berita._id if berita else '' }}";
+
+        // Ambil 3 Berita Lainnya dari API
+        async function muatBeritaTerkait() {
+            const container = document.getElementById('grid-berita-terkait');
+            try {
+                const respon = await fetch('http://127.0.0.1:5000/ambil-berita');
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses' && hasil.data.length > 0) {
+                    // Filter agar berita yang sedang dibaca tidak muncul lagi di daftar terkait
+                    const beritaLain = hasil.data.filter(item => item._id !== currentId).slice(0, 3);
+
+                    if (beritaLain.length > 0) {
+                        container.innerHTML = '';
+                        beritaLain.forEach(item => {
+                            container.innerHTML += `
+                                <a href="/detail/${item._id}" class="related-card">
+                                    <img src="${item.foto_url}" class="related-img" alt="${item.judul}">
+                                    <div class="related-content">
+                                        <h4 class="related-title">${item.judul}</h4>
+                                        <span style="font-size: 0.75rem; color: #dc2626; font-weight: 600;">${item.kategori}</span>
+                                    </div>
+                                </a>
+                            `;
+                        });
+                    } else {
+                        tampilkanEmptyState(container, "Belum ada publikasi lainnya.");
+                    }
+                } else {
+                    tampilkanEmptyState(container, "Belum ada publikasi lainnya.");
+                }
+            } catch (error) {
+                tampilkanEmptyState(container, "Gagal memuat rekomendasi artikel.");
+            }
+        }
+
+        // Tampilan Empty State Universal
+        function tampilkanEmptyState(targetElement, pesan) {
+            targetElement.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <p>${pesan}</p>
+                </div>
+            `;
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Tautan artikel berhasil disalin!");
+        }
+
+        function shareWA() {
+            const link = encodeURIComponent(window.location.href);
+            window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
+        }
+
+        function shareFB() {
+            const link = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${link}`, '_blank');
+        }
+
+        window.onload = muatBeritaTerkait;
+    </script>
+</body>
+</html>

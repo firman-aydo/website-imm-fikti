@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pengurus - PK IMM FIKTI UMSU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #dc2626; --primary-hover: #b91c1c; --sidebar-bg: #ffffff; --bg-color: #f8fafc; --text-main: #0f172a; --text-light: #64748b; --border: #e2e8f0; }
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 2rem 1.5rem; box-shadow: 4px 0 24px rgba(0,0,0,0.02); z-index: 10; }
+        .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 3rem; padding-left: 0.5rem; }
+        .brand i { font-size: 1.8rem; color: var(--primary); }
+        .brand h2 { margin: 0; font-size: 1.4rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        
+        .nav-menu { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-link { display: flex; align-items: center; gap: 12px; padding: 1rem 1.2rem; color: var(--text-light); text-decoration: none; font-weight: 600; border-radius: 10px; transition: all 0.3s ease; }
+        .nav-link i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .nav-link:hover { background: #f1f5f9; color: var(--text-main); }
+        .nav-link.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2); }
+        .nav-link.logout-btn:hover { background: #fee2e2; color: #ef4444; }
+
+        .btn-back { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 1rem; color: var(--text-light); text-decoration: none; font-weight: 500; border-radius: 10px; background: #f1f5f9; transition: 0.3s; }
+        .btn-back:hover { background: #e2e8f0; color: var(--text-main); }
+        
+        .main-content { flex: 1; padding: 3rem 4rem; overflow-y: auto; }
+        .header-section { margin-bottom: 2.5rem; }
+        .header-section h1 { font-size: 2rem; margin: 0 0 0.5rem 0; letter-spacing: -0.5px; }
+        .header-section p { margin: 0; color: var(--text-light); font-size: 1.05rem; }
+        .form-card { background: white; border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.05); border: 1px solid rgba(226, 232, 240, 0.8); max-width: 850px; }
+        .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.6rem; color: #334155; font-size: 0.95rem; }
+        .form-control { width: 100%; padding: 0.85rem 1.2rem; border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 1rem; color: var(--text-main); background-color: #f8fafc; transition: all 0.3s ease; box-sizing: border-box; }
+        .form-control:focus { outline: none; border-color: var(--primary); background-color: white; box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1); }
+        .file-info { display: block; font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem; }
+        .btn-submit { background: var(--primary); color: white; border: none; padding: 1rem 2rem; font-size: 1.05rem; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem; }
+        .btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); }
+        .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-cancel { background: #f1f5f9; color: var(--text-main); border: none; padding: 1rem 2rem; font-size: 1.05rem; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; transition: all 0.3s; display: none; margin-top: 0.5rem; }
+        .btn-cancel:hover { background: #e2e8f0; }
+        
+        /* Tabel Tombol Aksi */
+        .btn-action { border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: 500; }
+        .btn-edit { background: #e0f2fe; color: #0284c7; margin-right: 5px; }
+        .btn-edit:hover { background: #bae6fd; }
+        .btn-delete { background: #fee2e2; color: #ef4444; }
+        .btn-delete:hover { background: #fecaca; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-layer-group"></i>
+            <h2>Admin Portal</h2>
+        </div>
+        <nav class="nav-menu">
+            <!-- REVISI: Perbaikan nama class -->
+            <a href="/ruang-dapuradmin-immfikti" class="nav-link">
+                <i class="fa-solid fa-pen-to-square"></i> Kelola Publikasi
+            </a>
+
+            <!-- REVISI: Menambahkan class active  -->
+            <a href="/kepengurusan" class="nav-link active">
+                <i class="fa-solid fa-users-gear"></i> Kelola Kepengurusan
+            </a>
+
+            <!-- REVISI: Perbaikan desain tombol logout -->
+            <a href="/logout" class="nav-link logout-btn" style="color: #ef4444; margin-top: 10px;">
+                <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
+            </a>
+        </nav>
+        
+        <!-- REVISI: Menambahkan tombol kembali ke website -->
+        <a href="index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Menuju Website
+        </a>
+    </aside>
+
+    <!-- KONTEN UTAMA -->
+    <main class="main-content">
+        
+        <!-- BAGIAN FORM -->
+        <div class="header-section">
+            <h1 id="form-title">Data Kepengurusan Kader</h1>
+            <p id="form-subtitle">Tambahkan profil kader yang menjabat dalam struktur organisasi PK IMM FIKTI.</p>
+        </div>
+
+        <div class="form-card">
+            <form id="formPengurus">
+                <input type="hidden" id="edit-id" name="edit_id" value="">
+
+                <div class="grid-2-cols">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="input-nama" name="nama" class="form-control" placeholder="Contoh: Firman Aydo Saputra" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jabatan</label>
+                        <input type="text" id="input-jabatan" name="jabatan" class="form-control" placeholder="Contoh: Ketua Umum, Ketua Bidang..." required>
+                    </div>
+                </div>
+
+                <div class="grid-2-cols">
+                    <div class="form-group">
+                        <label>Pilih Bidang / Divisi</label>
+                        <select id="input-bidang" name="bidang" class="form-control" required>
+                            <option value="" disabled selected>Pilih Klasifikasi...</option>
+                            <option value="Pimpinan Umum">Pimpinan Umum</option>
+                            <option value="Bidang Organisasi">Bidang Organisasi</option>
+                            <option value="Bidang Kadernisasi">Bidang Kadernisasi</option>
+                            <option value="Bidang Hikmah">Bidang Hikmah</option>
+                            <option value="Bidang Kajian Pengembangan & Keilmuan (KPK)">Bidang KPK</option>
+                            <option value="Bidang Sosial Pemberdayaan Masyarakat (SPM)">Bidang SPM</option>
+                            <option value="Bidang Ekonomi & Kewirausahaan (Ekowir)">Bidang Ekowir</option>
+                            <option value="Bidang Media Komunikasi (Medkom)">Bidang Medkom</option>
+                            <option value="Bidang Immawati">Bidang Immawati</option>
+                            <option value="Bidang Tabligh Akbar & Kajian Keislaman (TKK)">Bidang TKK</option>
+                            <option value="Bidang Olahraga dan Kepemudaan (OKA)">Bidang OKA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Periode Kepengurusan</label>
+                        <select id="input-periode" name="periode" class="form-control" required>
+                            <option value="" disabled selected>Pilih Periode...</option>
+                            <option value="2025-2026">Periode 2025/2026 (Utama)</option>
+                            <option value="2024-2025">Periode 2024/2025 (Arsip)</option>
+                            <option value="2023-2024">Periode 2023/2024 (Arsip)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Pas Foto Kader</label>
+                    <input type="file" id="input-foto" name="foto_pengurus" class="form-control" accept="image/png, image/jpeg" style="background: white; padding: 0.6rem;" required>
+                    <span class="file-info" id="info-foto"><i class="fa-solid fa-circle-info"></i> Disarankan pas foto resmi (jas merah IMM).</span>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSimpanPengurus">
+                    <i class="fa-solid fa-user-plus"></i> Tambahkan Pengurus
+                </button>
+                <button type="button" class="btn-cancel" id="btnBatal" onclick="batalkanEdit()">
+                    Batalkan Perubahan
+                </button>
+            </form>
+        </div>
+
+        <!-- BAGIAN TABEL -->
+        <div class="header-section" style="margin-top: 4rem; margin-bottom: 1.5rem;">
+            <h1>Daftar Isi Kepengurusan </h1>
+            <p>Daftar kader yang masuk dalam kepengurusan.</p>
+        </div>
+
+        <div class="form-card" style="padding: 0; overflow: hidden; max-width: 850px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Pas Foto</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Nama & Info</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Periode</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155; text-align: center;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-pengurus">
+                    <tr><td colspan="4" style="text-align: center; padding: 2rem;">Memuat data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <script>
+        let dataGlobalPengurus = [];
+
+        // 1. Submit Data (Create & Update)
+        document.getElementById('formPengurus').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const tombol = document.getElementById('btnSimpanPengurus');
+            const editId = document.getElementById('edit-id').value;
+            
+            tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+            tombol.disabled = true;
+
+            const formData = new FormData(form);
+            
+            let urlAPI = 'http://127.0.0.1:5000/tambah-pengurus';
+            if (editId !== '') {
+                urlAPI = `http://127.0.0.1:5000/edit-pengurus/${editId}`;
+            }
+
+            try {
+                const respon = await fetch(urlAPI, { method: 'POST', body: formData });
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses') {
+                    alert('Sukses! Data pengurus berhasil diperbarui.');
+                    batalkanEdit();
+                    muatTabelPengurus();
+                } else {
+                    alert('Gagal: ' + hasil.pesan);
+                }
+            } catch (error) {
+                alert('Gagal terhubung. Pastikan server Flask menyala.');
+            } finally {
+                tombol.disabled = false;
+                if (document.getElementById('edit-id').value !== '') {
+                    tombol.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
+                } else {
+                    tombol.innerHTML = '<i class="fa-solid fa-user-plus"></i> Tambahkan Pengurus';
+                }
+            }
+        });
+
+        // 2. Read Data
+        async function muatTabelPengurus() {
+            const tbody = document.getElementById('tabel-pengurus');
+            try {
+                const respon = await fetch('http://127.0.0.1:5000/ambil-pengurus');
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses' && hasil.data.length > 0) {
+                    dataGlobalPengurus = hasil.data;
+                    tbody.innerHTML = ''; 
+                    
+                    hasil.data.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #e2e8f0';
+                        
+                        tr.innerHTML = `
+                            <td style="padding: 1rem 1.5rem;">
+                                <img src="${item.foto_url}" style="width: 55px; height: 55px; object-fit: cover; border-radius: 50%; border: 2px solid #e2e8f0;">
+                            </td>
+                            <td style="padding: 1rem 1.5rem;">
+                                <div style="font-weight: 700; color: #0f172a; margin-bottom: 6px; font-size: 1.05rem;">${item.nama}</div>
+                                <span style="background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #475569;">
+                                    ${item.jabatan}
+                                </span>
+                                <!-- REVISI: Menambahkan nama bidang di bawah jabatan agar lebih jelas -->
+                                <div style="font-size: 0.85rem; color: #64748b; margin-top: 6px;"><i class="fa-solid fa-sitemap"></i> ${item.bidang}</div>
+                            </td>
+                            <td style="padding: 1rem 1.5rem; color: #64748b; font-weight: 500;">
+                                ${item.periode}
+                            </td>
+                            <td style="padding: 1rem 1.5rem; text-align: center;">
+                                <button onclick="siapkanEdit('${item._id}')" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="hapusData('${item._id}')" class="btn-action btn-delete"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #64748b;">Belum ada data pengurus.</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: red;">Gagal mengambil data.</td></tr>';
+            }
+        }
+
+        // 3. Persiapan Edit
+        function siapkanEdit(id) {
+            const dataTerpilih = dataGlobalPengurus.find(item => item._id === id);
+            if (!dataTerpilih) return;
+
+            document.getElementById('input-nama').value = dataTerpilih.nama;
+            document.getElementById('input-jabatan').value = dataTerpilih.jabatan;
+            
+            // REVISI PENTING: Tambahkan ini agar opsi Bidang juga terisi otomatis
+            document.getElementById('input-bidang').value = dataTerpilih.bidang; 
+            
+            document.getElementById('input-periode').value = dataTerpilih.periode;
+            document.getElementById('edit-id').value = id;
+
+            document.getElementById('form-title').innerText = "Edit Data Kader";
+            document.getElementById('form-subtitle').innerText = "Perbarui informasi struktural kader ini.";
+            
+            const btnSimpan = document.getElementById('btnSimpanPengurus');
+            btnSimpan.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
+            btnSimpan.style.backgroundColor = '#0284c7'; 
+
+            document.getElementById('btnBatal').style.display = 'block';
+
+            const inputFoto = document.getElementById('input-foto');
+            inputFoto.removeAttribute('required');
+            document.getElementById('info-foto').innerHTML = '<i class="fa-solid fa-circle-info"></i> Kosongkan jika tidak ingin ganti foto.';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 4. Batal Edit
+        function batalkanEdit() {
+            document.getElementById('formPengurus').reset();
+            document.getElementById('edit-id').value = ''; 
+            
+            document.getElementById('form-title').innerText = "Data Kepengurusan";
+            document.getElementById('form-subtitle').innerText = "Tambahkan profil kader yang menjabat dalam struktur organisasi IMM FIKTI.";
+            
+            const btnSimpan = document.getElementById('btnSimpanPengurus');
+            btnSimpan.innerHTML = '<i class="fa-solid fa-user-plus"></i> Tambahkan Pengurus';
+            btnSimpan.style.backgroundColor = 'var(--primary)'; 
+            
+            document.getElementById('btnBatal').style.display = 'none'; 
+            
+            document.getElementById('input-foto').setAttribute('required', 'true');
+            document.getElementById('info-foto').innerHTML = '<i class="fa-solid fa-circle-info"></i> Disarankan pas foto resmi (jas merah IMM).';
+        }
+
+        // 5. Delete Data
+        async function hapusData(id) {
+            const yakin = confirm("Yakin ingin menghapus kader ini dari struktur?");
+            if (!yakin) return;
+
+            try {
+                const respon = await fetch(`http://127.0.0.1:5000/hapus-pengurus/${id}`, { method: 'DELETE' });
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses') {
+                    alert('Data kader dihapus!');
+                    muatTabelPengurus(); 
+                    if (document.getElementById('edit-id').value === id) {
+                        batalkanEdit(); 
+                    }
+                } else { alert('Gagal menghapus: ' + hasil.pesan); }
+            } catch (error) { alert('Terjadi kesalahan sistem.'); }
+        }
+
+        // Muat otomatis
+        window.onload = muatTabelPengurus;
+    </script>
+</body>
+</html>

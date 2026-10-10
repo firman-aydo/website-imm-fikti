@@ -1,0 +1,1674 @@
+/* =========================================
+   1. GLOBAL STYLES & RESET
+============================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.bg-light {
+    background-color: #f9fafb;
+}
+
+/* =========================================
+   2. BUTTONS (TOMBOL)
+============================================ */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #8B0000; 
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #660000; 
+}
+
+/* =========================================
+   3. NAVBAR (DESAIN BARU DENGAN 3 LOGO)
+============================================ */
+.navbar-new {
+    background-color: #ffffff;
+    padding: 0.5rem 0;
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; 
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-logo img {
+    height: 90px; 
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem; 
+}
+
+@media (min-width: 768px) {
+    .nav-menu {
+        margin-top: 0; 
+    }
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding-bottom: 0.5rem;
+    transition: color 0.3s;
+}
+
+.nav-link.active, .nav-link:hover {
+    color: #8B0000; 
+    border-bottom: 3px solid #8B0000; 
+}
+
+.navbar-divider {
+    height: 5px;
+    background-color: #8B0000;
+    width: 100%;
+}
+
+/* =========================================
+   4. HERO CAROUSEL SLIDER (DESKTOP: UKURAN KUNCI 82vh)
+============================================ */
+.hero-slider, #wadah-slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: 82vh; /* KEMBALIKAN KE 82vh AGAR GARIS KUNING TERLIHAT */
+    background-color: #f8fafc;
+}
+
+.slide-item {
+    width: 100%;
+    height: 100%; /* Pastikan item memenuhi 82vh */
+    display: none; 
+    position: absolute; 
+    top: 0; left: 0;
+    animation: fadeEffect 0.8s ease-in-out; 
+}
+
+.slide-item.aktif {
+    display: block;
+    position: relative; 
+    z-index: 2;
+}
+
+.slide-item img {
+    width: 100%;
+    height: 100%; /* Paksa gambar memenuhi bingkai */
+    object-fit: cover; /* POTONG RAPI GAMBAR YANG KEBESARAN */
+    object-position: center;
+    display: block;
+    margin: 0;
+}
+
+/* Teks melayang di DALAM gambar untuk Desktop */
+.slide-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 6rem 2rem 2rem 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    color: white;
+    text-align: center;
+}
+
+.slide-badge {
+    background-color: #dc2626; 
+    color: white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+}
+
+.slide-overlay h2 {
+    font-size: 2.2rem;
+    margin: 0;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.3s;
+    backdrop-filter: blur(4px);
+}
+
+.slider-btn:hover { background: #dc2626; }
+.btn-kiri { left: 20px; }
+.btn-kanan { right: 20px; }
+
+/* Titik merah navigasi melayang di dalam gambar */
+.slider-dots, #wadah-dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px; height: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.aktif { background: #dc2626; width: 30px; border-radius: 10px; }
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* =========================================
+   5. GENERAL SECTIONS & GRIDS
+============================================ */
+.section-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 2.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   6. HALAMAN TENTANG & PENGURUS (HEADER)
+============================================*/
+.page-header {
+    background-color: #8B0000; 
+    color: white;
+    padding: 0.8rem 0;
+    margin-bottom: 0rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: #ffcc00; 
+}
+
+.pengurus-section {
+    padding: 1rem 0;
+}
+
+/* =========================================
+   7. STYLING KARTU PENGURUS
+============================================ */
+.grid-bph {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-bph {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.bidang-group {
+    margin-bottom: 4rem;
+}
+
+.bidang-title {
+    text-align: center;
+    color: #8B0000; 
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed #e5e7eb; 
+}
+
+.grid-bidang-members {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-bidang-members {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.pengurus-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s;
+    border: 1px solid #e5e7eb;
+}
+
+.pengurus-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.pengurus-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover; 
+    object-position: top; 
+}
+
+.pengurus-info {
+    padding: 0.8rem 0.5rem;
+}
+
+.pengurus-nama {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.pengurus-jabatan {
+    font-size: 0.85rem;
+    color: #8B0000; 
+    font-weight: 600;
+}
+
+.ketua-card {
+    border: 2px solid #8B0000; 
+    box-shadow: 0 10px 15px rgba(139, 0, 0, 0.1); 
+}
+
+/* =========================================
+   8. STYLING HALAMAN TENTANG IMM
+============================================ */
+.about-grid {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+
+.about-text {
+    line-height: 1.8;
+}
+
+.quote-box {
+    background-color: #fef2f2;
+    border-left: 4px solid #8B0000; 
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* =========================================
+   9. TAGS & KOMPONEN BERITA
+============================================ */
+.tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.tag-rpk { background-color: #0284c7; }
+.tag-umum { background-color: #8B0000; }
+.tag-hikmah { background-color: #16a34a; }
+
+/* =========================================
+   10. FOOTER LAMA (BIARKAN)
+============================================ */
+.footer {
+    background-color: #111827;
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 2rem;
+}
+
+/* =========================================
+   11. SLOGAN BANNER (MERAH & KUNING)
+============================================ */
+.slogan-banner {
+    background-color: #8B0000;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    padding: 0.3rem 0;
+    border-top: 10px solid #ffcc00;
+    border-bottom: 10px solid #ffcc00;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   12 & 13. BACKGROUND GABUNGAN & SECTIONS
+============================================*/
+.bg-gabungan {
+    background-image: url('assets/bg-web.jpeg');
+    background-size: 100% auto;
+    background-position: center;
+    background-attachment: scroll; 
+    background-repeat: repeat;
+}
+
+/* Fokus Pergerakan */
+.fokus-section {
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 4rem 0;
+}
+
+/* Program Kerja */
+.proker-section {
+    background-color: rgba(11, 78, 138, 0.90);
+    padding: 4rem 0;
+}
+
+/* Styling Card Fokus */
+.grid-fokus {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-fokus {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.fokus-card {
+    border: 4px solid #6b7280; 
+    border-radius: 1.5rem;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    background-color: transparent;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.fokus-card:hover {
+    transform: scale(1.05);
+    background-color: white;
+}
+
+.fokus-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #111827;
+}
+
+.fokus-card p {
+    font-size: 1.1rem;
+    color: #374151;
+    line-height: 1.6;
+}
+
+/* Styling Header & Layout Proker / Berita */
+.proker-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.proker-title {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+.btn-outline-light {
+    position: absolute;
+    right: 0;
+    border: 1px solid white;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #0b4e8a;
+}
+
+@media (max-width: 768px) {
+    .proker-header {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .btn-outline-light {
+        position: static;
+    }
+}
+
+.grid-proker {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .grid-proker {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.proker-card {
+    background-color: transparent;
+}
+
+.proker-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+.proker-info {
+    padding: 1rem 0;
+}
+
+.proker-desc {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.proker-date {
+    color: #ffcc00;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   14. TENTANG IMM (SNIPPET)
+============================================ */
+.tentang-snippet {
+    background-color: rgba(249, 250, 251, 0.92); 
+    padding: 3rem 0;
+}
+
+.snippet-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.snippet-text {
+    flex: 1; 
+}
+
+.snippet-text h2 {
+    margin-bottom: 0.5rem;
+    color: #111827;
+    font-size: 1.5rem;
+}
+
+.snippet-text p {
+    color: #374151;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+.btn-outline-dark {
+    border: 1px solid #6b7280;
+    color: #1f2937;
+    padding: 0.5rem 1.5rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    white-space: nowrap; 
+    background-color: white;
+}
+
+.btn-outline-dark:hover {
+    background-color: #f3f4f6;
+    border-color: #1f2937;
+}
+
+@media (max-width: 768px) {
+    .snippet-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+    .snippet-text p {
+        text-align: center;
+    }
+}
+
+/* =========================================
+   15. BERITA IMM SECTION
+============================================ */
+.berita-section {
+    background-color: rgba(11, 78, 138, 0.90); 
+    padding: 4rem 0;
+}
+
+/* =========================================
+   16. FOOTER (LOKASI & KONTAK)
+============================================ */
+.main-footer {
+    background-color: rgba(236, 236, 236, 0.9); 
+    padding: 1rem 0;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr; 
+    }
+}
+
+.footer-logos {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+
+.footer-logos img {
+    height: 128px; 
+    object-fit: contain;
+}
+
+.main-footer h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #111827;
+}
+
+.footer-lokasi p {
+    color: #374151;
+    line-height: 1.6;
+}
+
+.kontak-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.kontak-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.kontak-item span {
+    color: #374151;
+    font-weight: 500;
+}
+
+/* =========================================
+   17. BOTTOM FOOTER BAR (MERAH)
+============================================ */
+.footer-bottom {
+    background-color: #8B0000; 
+    color: white;
+    text-align: center;
+    padding: 0.5rem 0; 
+    font-weight: bold;
+    font-size: 1rem;
+    position: relative;
+    z-index: 3; 
+}
+
+/* =========================================
+   18. KARTU NILAI (TRILOGI & TRI KOMPETENSI)
+============================================ */
+.nilai-card {
+    border: 3px solid #111827; 
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    background-color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.nilai-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.nilai-card h3 {
+    font-size: 1.3rem;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.nilai-card p {
+    font-size: 1.05rem;
+    color: #374151;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* =========================================
+   19. MAKNA FILOSOFI & ALASAN BERGABUNG
+============================================ */
+.grid-filosofi {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-filosofi {
+        grid-template-columns: 1fr 2fr; 
+    }
+}
+
+.alasan-card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    gap: 1.5rem;
+    border: 1px solid #f3f4f6;
+    align-items: flex-start;
+    transition: box-shadow 0.3s;
+}
+
+.alasan-card:hover {
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.alasan-number {
+    background-color: #5c8ae6; 
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    min-width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+}
+
+.alasan-text h3 {
+    font-size: 1.2rem;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.alasan-text p {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .alasan-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* =========================================
+   20. PERIODE SEBELUMNYA (KOTAK BAWAH)
+============================================ */
+.grid-periode {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-periode {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.periode-card {
+    border: 3px solid #111827; 
+    border-radius: 1.5rem; 
+    padding: 2.5rem 1rem;
+    text-align: center;
+    background-color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.periode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.periode-title {
+    color: #8B0000; 
+    font-weight: 900;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.periode-desc {
+    color: #111827;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.periode-link {
+    color: #0284c7; 
+    text-decoration: none;
+    font-size: 1.15rem;
+    transition: color 0.3s;
+}
+
+.periode-link:hover {
+    color: #0369a1;
+    text-decoration: underline;
+}
+
+/* =========================================
+   21. HALAMAN PROGRAM KERJA & BERITA
+============================================ */
+.hero-grid-proker {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@media (min-width: 992px) {
+    .hero-grid-proker {
+        grid-template-columns: 1fr 1fr; 
+        padding: 0 1.5rem;
+    }
+}
+
+.hero-right-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr; 
+    gap: 1rem;
+    aspect-ratio: 1 / 1; 
+}
+
+.hero-item-proker {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    width: 100%;
+    height: 100%; 
+}
+
+.hero-item-proker.large { aspect-ratio: 1 / 1; }
+.hero-item-proker.top-right { grid-column: 1 / 3; }
+
+.hero-item-proker img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.hero-item-proker:hover img {
+    transform: scale(1.05);
+}
+
+.hero-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    color: white;
+}
+
+.hero-item-proker.bottom-left .hero-overlay,
+.hero-item-proker.bottom-right .hero-overlay {
+    padding: 1rem; 
+}
+
+.proker-badge {
+    background-color: #8B0000; 
+    color: white;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    border-radius: 2px;
+}
+
+.small-badge {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.hero-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.hero-title.small { font-size: 1.1rem; }
+.hero-title.extra-small { font-size: 0.95rem; }
+
+/* -------------------------------------
+   Toolbar & Kolom Pencarian
+---------------------------------------- */
+.proker-toolbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #f3f4f6;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .proker-toolbar {
+        flex-direction: row;
+    }
+}
+
+.toolbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+}
+
+.search-box {
+    display: flex;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-right: none;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.search-box button {
+    background-color: #8B0000; 
+    border: none;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-box button:hover { background-color: #660000; }
+
+/* -------------------------------------
+   List Program Kerja / Berita (Bagian Bawah)
+---------------------------------------- */
+.proker-list-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .proker-list-item {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.proker-list-img {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    flex-shrink: 0;
+}
+
+.proker-list-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.badge-absolute {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+}
+
+.proker-list-content { flex: 1; }
+
+.proker-list-content h3 {
+    font-size: 1.4rem;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.proker-meta {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.meta-divider {
+    color: #d1d5db;
+    margin: 0 0.5rem;
+}
+
+.proker-list-content p {
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.btn-read-more {
+    display: inline-block;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid #111827;
+    color: #111827;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.btn-read-more:hover {
+    background-color: #111827;
+    color: white;
+}
+
+.proker-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 2rem 0;
+}
+
+/* =========================================
+   DESAIN BARU: VISI & MISI SECTION
+========================================= */
+.visi-misi-section {
+    background-color: rgba(11, 78, 138, 0.92); 
+    padding: 5rem 0;
+    color: white;
+}
+
+.visi-misi-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.visi-misi-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.visi-misi-header .accent-line {
+    width: 55%;
+    height: 4px;
+    background-color: #ffcc00; 
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.visi-misi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .visi-misi-grid { grid-template-columns: 5fr 7fr; }
+}
+
+.visi-misi-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.visi-misi-gallery img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.visi-misi-gallery img:hover { transform: translateY(-5px); }
+
+.img-large {
+    grid-column: 1 / -1;
+    height: 250px !important;
+}
+
+.img-small { height: 160px !important; }
+
+.misi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.misi-item {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1); 
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    border-left: 5px solid #ffcc00;
+    transition: all 0.3s ease;
+}
+
+.misi-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(10px); 
+}
+
+.misi-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3); 
+    margin-right: 1.5rem;
+    min-width: 45px;
+}
+
+.misi-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: white;
+}
+
+/* =========================================
+   DESAIN MAKNA LAMBANG 
+========================================= */
+.makna-lambang-section {
+    background-color: rgba(11, 78, 138, 0.95); 
+    padding: 6rem 0;
+    color: white;
+}
+
+.makna-split-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+@media (min-width: 992px) {
+    .makna-split-layout {
+        grid-template-columns: 1fr 1.3fr; 
+        align-items: start;
+    }
+}
+
+.makna-kiri-sticky {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .makna-kiri-sticky {
+        position: sticky;
+        top: 100px; 
+    }
+}
+
+.makna-header-kiri h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.makna-header-kiri .accent-line {
+    width: 400px;
+    height: 5px;
+    background-color: #ffcc00;
+    margin: 0 auto 2.5rem auto;
+    border-radius: 3px;
+}
+
+.makna-logo-giant {
+    width: 100%;
+    max-width: 380px;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6)); 
+    transition: transform 0.5s ease;
+}
+
+.makna-logo-giant:hover { transform: scale(1.05); }
+
+.makna-kanan-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.makna-card {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 6px solid #ffcc00;
+    border-radius: 12px; 
+    padding: 1.5rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.makna-card:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(12px); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.makna-title {
+    color: #ffcc00;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.makna-desc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =========================================
+   DESAIN BARU : TRILOGI & TRIKOMPETENSI 
+========================================= */
+.filosofi-imm-section {
+    background-color: #ffffff; 
+    padding: 6rem 0;
+}
+
+.filosofi-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.filosofi-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111827; 
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.accent-line-yellow {
+    width: 650px;
+    height: 5px;
+    background-color: #8B0000 ; 
+    margin: 0 auto 1.5rem auto;
+    border-radius: 3px;
+}
+
+.filosofi-subtitle {
+    font-size: 1.1rem;
+    color: #4b5563; 
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.filosofi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+@media (min-width: 992px) {
+    .filosofi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+}
+
+.column-header {
+    text-align: left;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f3f4f6; 
+}
+
+.column-header h3 {
+    color: #111827; 
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.filosofi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.f-card-light {
+    background-color: #ffffff;
+    border: 1px solid #f3f4f6;
+    border-left: 5px solid #8B0000; 
+    border-radius: 8px;
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow: 0 4px 10px rgba(232, 8, 8, 0.02); 
+    transition: all 0.3s ease;
+}
+
+.f-card-light:hover {
+    transform: translateX(10px); 
+    box-shadow: 0 10px 25px rgba(11, 78, 138, 0.08); 
+    border-color: #ffcc00;
+}
+
+.f-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: rgba(11, 78, 138, 0.15); 
+    line-height: 1;
+    min-width: 45px;
+    padding-top: 0.2rem;
+}
+
+.f-content h4 {
+    color: #111827; 
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.f-content p {
+    color: #4b5563; 
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    text-align: justify;
+}
+
+/* =========================================
+   DESAIN BARU: MENGAPA BERGABUNG (ALASAN)
+========================================= */
+.alasan-section {
+    padding: 6rem 0;
+    background-color: #f9fafb; 
+}
+
+.alasan-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.alasan-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111827;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.alasan-header .accent-line {
+    width: 550px;
+    height: 5px;
+    background-color: #8B0000; 
+    margin: 1.2rem auto 0;
+    border-radius: 3px;
+}
+
+.alasan-grid-modern {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .alasan-grid-modern {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+.alasan-card-modern {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+.alasan-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 5px;
+    background-color: #ffcc00; 
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: -1;
+}
+
+.alasan-card-modern:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 15px 35px rgba(139, 0, 0, 0.08);
+    border-color: #8B0000; 
+}
+
+.alasan-card-modern:hover::before { transform: scaleX(1); }
+
+.alasan-icon-wrapper { flex-shrink: 0; }
+
+.alasan-angka {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; height: 60px;
+    background-color: #8B0000; 
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(139, 0, 0, 0.2);
+    transition: all 0.4s ease;
+}
+
+.alasan-card-modern:hover .alasan-angka {
+    background-color: #ffcc00; 
+    color: #8B0000;
+    transform: rotate(-10deg) scale(1.1);
+}
+
+.alasan-content h3 {
+    font-size: 1.25rem;
+    color: #111827;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.alasan-content p {
+    color: #4b5563;
+    line-height: 1.6;
+    font-size: 1rem;
+    margin: 0;
+    text-align: justify;
+}
+
+/* TOMBOL HAMBURGER */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: #b91c1c; 
+    cursor: pointer;
+}
+
+/* =========================================================
+   PENGATURAN TAMPILAN MOBILE (HP & TABLET KECIL)
+   Semua kode responsif digabung rapi di sini
+   ========================================================= */
+@media (max-width: 768px) {
+    
+    /* 1. PERBAIKAN NAVBAR (HAMBURGER MENU) & FOOTER */
+    .hamburger {
+        display: block; 
+        position: absolute;
+        right: 15px;
+        top: 15px;
+    }
+    
+    .nav-wrapper {
+        flex-direction: column;
+        align-items: flex-start; 
+        padding-bottom: 10px;
+    }
+
+    .nav-menu {
+        display: none; 
+        flex-direction: column;
+        width: 100%;
+        background: white;
+        margin-top: 15px;
+        padding: 0;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .nav-menu.aktif { display: flex; }
+    .nav-menu li { width: 100%; }
+
+    .nav-link {
+        display: block;
+        width: 100%;
+        padding: 15px 20px;
+        text-align: left; 
+        border-bottom: 1px solid #f8fafc;
+        box-sizing: border-box;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    .footer-logos { justify-content: center; }
+
+    /* 2. PERBAIKAN GRID & KARTU (Berita, Proker, Pengurus) */
+    .grid, .grid-bph, .grid-bidang-members, .grid-periode {
+        grid-template-columns: 1fr !important; 
+    }
+    .hero-right-grid {
+        grid-template-columns: 1fr;
+    }
+    .pengurus-card, .proker-card, .periode-card {
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* 3. HERO SLIDER MOBILE FIX (HP) */
+    .hero-slider, #wadah-slider {
+        height: auto !important; 
+        padding-bottom: 0 !important; 
+    }
+    
+    .slide-item {
+        height: auto !important;
+    }
+    
+    /* KUNCI UTAMA: Banner utama dibiarkan utuh, foto berita raksasa dibatasi tingginya */
+    .slide-item img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 2 / 1 !important; /* Membuat semua gambar seragam memanjang. Jika masih kurang pas, bisa dicoba 16/9 atau 21/9 */
+        max-height: none !important;
+        object-fit: cover !important; /* Memotong rapi foto berita agar pas dengan cetakan banner */
+    }
+
+    /* KEMBALIKAN TEKS & GRADASI KE DALAM GAMBAR SEPERTI DESKTOP */
+    .slide-overlay {
+        position: absolute !important; 
+        bottom: 0 !important;
+        background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%) !important;
+        padding: 3rem 1rem 2.5rem 1rem !important; /* Ruang bawah diperbesar untuk tempat titik navigasi */
+        text-align: center !important;
+    }
+    
+    /* PENGATURAN UKURAN TEKS JUDUL & LABEL KHUSUS HP */
+    .slide-badge {
+        font-size: 0.65rem !important; /* Mengecilkan ukuran kotak merah label */
+        padding: 0.2rem 0.6rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .slide-overlay h2 {
+        font-size: 0.9rem !important; /* Mengecilkan ukuran huruf judul */
+        line-height: 1.3 !important; /* Merapatkan jarak antar baris */
+        margin-top: 5px !important;
+        color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+        padding: 0 25px !important; /* Mendorong teks ke tengah agar tidak menabrak tombol panah < dan > */
+    }
+
+    /* PANAH DAN TITIK NAVIGASI PINDAH KE DALAM GAMBAR */
+    .hero-slider .slider-btn, 
+    .hero-slider .btn-kiri, 
+    .hero-slider .btn-kanan {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 35px !important; /* Diperkecil sedikit agar tidak memakan tempat di layar HP */
+        height: 35px !important;
+        font-size: 1.2rem !important;
+    }
+
+    .slider-dots, #wadah-dots {
+        position: absolute !important;
+        bottom: 10px !important; /* Menempel di dasar foto */
+    }
+
+    /* 4. PERBAIKAN HALAMAN ADMIN */
+    body { flex-direction: column; }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem 1rem;
+        box-sizing: border-box;
+    }
+    .main-content { padding: 1.5rem 1rem; }
+    .grid-2-cols { grid-template-columns: 1fr !important; }
+    .form-card { padding: 1.5rem; }
+}

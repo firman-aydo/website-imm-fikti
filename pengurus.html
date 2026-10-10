@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kepengurusan - PK IMM FIKTI UMSU</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- NAVBAR SECTION -->
+    <nav class="navbar-new">
+        <!-- Tambahkan style position relative di baris bawah ini -->
+        <div class="container nav-wrapper" style="position: relative;"> 
+            <div class="brand-logo">
+                <img src="assets/logo-umsu.png" alt="Logo UMSU" class="logo-kampus">
+                <img src="assets/logo-unggul.png" alt="Logo Akreditasi Unggul" class="logo-unggul">
+                <img src="assets/logo-imm.png" alt="PK IMM FIKTI UMSU" class="logo-imm">
+            </div>
+            
+            <!-- TOMBOL HAMBURGER -->
+            <button class="hamburger" id="hamburger-menu">&#9776;</button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Beranda</a></li>
+                <li><a href="tentang.html" class="nav-link">Tentang IMM</a></li>
+                <li><a href="pengurus.html" class="nav-link active">Kepengurusan</a></li>
+                <li><a href="proker.html" class="nav-link">Program Kerja</a></li>
+                <li><a href="berita.html" class="nav-link">Berita IMM</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="navbar-divider"></div>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header text-center" style="padding: 2.5rem 0;">
+        <div class="container">
+            <h1 class="page-title" style="font-size: 1.8rem; margin-bottom: 0.2rem;">Struktur Kepengurusan</h1>
+            <p class="page-subtitle" style="font-size: 1rem;">Pimpinan Komisariat IMM FIKTI UMSU Periode 2025/2026</p>
+        </div>
+    </header>
+    
+    <!-- STRUKTUR KEPENGURUSAN SECTION -->
+    <section class="container pengurus-section" style="padding-top: 1rem;">
+        
+        <!-- Wadah yang akan disuntik kode oleh JS -->
+        <div id="wadah-semua-pengurus">
+            <p style="text-align: center; color: #64748b;">Memuat data kepengurusan dari server...</p>
+        </div>
+
+        <!-- BAGIAN PERIODE SEBELUMNYA -->
+        <div class="grid-periode" id="wadah-arsip-periode">
+            <!-- Akan diisi dan diatur otomatis oleh JavaScript -->
+        </div>
+    </section>
+    
+    <!-- FOOTER LOKASI & KONTAK -->
+    <footer class="main-footer" style="margin-top: 5rem;">
+        <div class="container footer-grid">
+            <div class="footer-logos">
+                <img src="assets/logo-umsu.png" alt="Logo UMSU">
+                <img src="assets/logo-unggul.png" alt="Logo Unggul">
+                <img src="assets/logo-imm.png" alt="Logo IMM">
+            </div>
+            
+            <div class="footer-lokasi">
+                <h3>Lokasi</h3>
+                <p>Jl. Kapt. Mukhtar Basri No. 3 Medan, 20238<br>Sumatera Utara, Indonesia</p>
+            </div>
+
+            <div class="footer-kontak">
+                <h3>Kontak</h3>
+                <div class="kontak-item">
+                    <img src="assets/logo-ig.png" alt="Instagram">
+                    <span>@immfiktiumsu</span>
+                </div>
+                <div class="kontak-item">
+                    <img src="assets/tiktok-logo.png" alt="TikTok">
+                    <span>@immfiktiumsu</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FOOTER BOTTOM BAR (Merah) -->
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Pimpinan Komisariat IMM FIKTI UMSU. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <!-- PANGGIL JAVASCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - PK IMM FIKTI UMSU</title>
+    <!-- Font dan Ikon -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #dc2626; 
+            --primary-hover: #b91c1c;
+            --sidebar-bg: #ffffff;
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.02);
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            padding-left: 0.5rem;
+        }
+
+        .brand i { font-size: 1.8rem; color: var(--primary); }
+        .brand h2 { margin: 0; font-size: 1.4rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-link {
+            display: flex; align-items: center; gap: 12px; padding: 1rem 1.2rem;
+            color: var(--text-light); text-decoration: none; font-weight: 600;
+            border-radius: 10px; transition: all 0.3s ease;
+        }
+        .nav-link i { font-size: 1.1rem; width: 20px; text-align: center; }
+        .nav-link:hover { background: #f1f5f9; color: var(--text-main); }
+        .nav-link.active {
+            background: var(--primary); color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+        
+        /* Tambahan khusus tombol logout */
+        .nav-link.logout-btn:hover { background: #fee2e2; color: #ef4444; }
+
+        .btn-back {
+            margin-top: auto; display: flex; align-items: center; justify-content: center;
+            gap: 8px; padding: 1rem; color: var(--text-light); text-decoration: none;
+            font-weight: 500; border-radius: 10px; background: #f1f5f9; transition: 0.3s;
+        }
+        .btn-back:hover { background: #e2e8f0; color: var(--text-main); }
+
+        /* --- KONTEN UTAMA --- */
+        .main-content { flex: 1; padding: 3rem 4rem; overflow-y: auto; }
+        .header-section { margin-bottom: 2.5rem; }
+        .header-section h1 { font-size: 2rem; margin: 0 0 0.5rem 0; letter-spacing: -0.5px; }
+        .header-section p { margin: 0; color: var(--text-light); font-size: 1.05rem; }
+
+        /* --- DESAIN FORM KARTU --- */
+        .form-card {
+            background: white; border-radius: 16px; padding: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8); max-width: 850px; position: relative;
+        }
+
+        .grid-2-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.6rem; color: #334155; font-size: 0.95rem; }
+        
+        .form-control {
+            width: 100%; padding: 0.85rem 1.2rem; border: 1.5px solid var(--border);
+            border-radius: 10px; font-family: inherit; font-size: 1rem;
+            color: var(--text-main); background-color: #f8fafc; transition: all 0.3s ease; box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none; border-color: var(--primary); background-color: white;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+        }
+
+        textarea.form-control { min-height: 180px; resize: vertical; }
+        .file-info { display: block; font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem; }
+
+        .btn-submit {
+            background: var(--primary); color: white; border: none; padding: 1rem 2rem;
+            font-size: 1.05rem; font-weight: 600; border-radius: 10px; cursor: pointer;
+            width: 100%; transition: all 0.3s; display: flex; align-items: center;
+            justify-content: center; gap: 10px; margin-top: 1rem;
+        }
+        .btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); }
+        .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .btn-cancel {
+            background: #f1f5f9; color: var(--text-main); border: none; padding: 1rem 2rem;
+            font-size: 1.05rem; font-weight: 600; border-radius: 10px; cursor: pointer;
+            width: 100%; transition: all 0.3s; display: none; margin-top: 0.5rem;
+        }
+        .btn-cancel:hover { background: #e2e8f0; }
+
+        /* Tabel Tombol Aksi */
+        .btn-action { border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: 500; }
+        .btn-edit { background: #e0f2fe; color: #0284c7; margin-right: 5px; }
+        .btn-edit:hover { background: #bae6fd; }
+        .btn-delete { background: #fee2e2; color: #ef4444; }
+        .btn-delete:hover { background: #fecaca; }
+
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-layer-group"></i>
+            <h2>Admin Portal</h2>
+        </div>
+        <nav class="nav-menu">
+            <!-- REVISI: Link diubah ke rute Flask (/admin) -->
+            <a href="/ruang-dapuradmin-immfikti" class="nav-link active">
+                <i class="fa-solid fa-pen-to-square"></i> Kelola Publikasi
+            </a>
+            
+            <!-- REVISI: Link diubah ke rute Flask (/kepengurusan) -->
+            <a href="/kepengurusan" class="nav-link">
+                <i class="fa-solid fa-users-gear"></i> Kelola Kepengurusan
+            </a>
+            
+            <!-- REVISI: Tombol Logout -->
+            <a href="/logout" class="nav-link logout-btn" style="color: #ef4444; margin-top: 10px;">
+                <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
+            </a>
+        </nav>
+        <a href="index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Menuju Website
+        </a>
+        
+    </aside>
+
+    <!-- KONTEN UTAMA -->
+    <main class="main-content">
+
+        <div class="header-section" style="margin-top: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; margin-bottom: 2rem;">
+            <h1>UPLOAD BANNER BERANDA</h1>
+            <p>Ubah foto desain utama yang muncul di halaman depan website.</p>
+            
+            <form id="formBanner" style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Pilih Foto Banner (Landscape)</label>
+                    <input type="file" name="foto_banner" class="form-control" accept="image/png, image/jpeg" required>
+                </div>
+                <button type="submit" class="btn-submit" id="btnSimpanBanner" style="width: auto; margin: 0;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload Banner
+                </button>
+            </form>
+        </div>
+        
+        <!-- BAGIAN 1: FORM TAMBAH & EDIT DATA -->
+        <div class="header-section">
+            <h1 id="form-title">PUBLIKASI PROGRAM KERJA/BERITA </h1>
+            <p id="form-subtitle">Unggah berita atau dokumentasi program kerja organisasi ke database.</p>
+        </div>
+
+        <div class="form-card">
+            <form id="formAdmin">
+                <!-- Input rahasia untuk menyimpan ID saat proses edit berjalan -->
+                <input type="hidden" id="edit-id" name="edit_id" value="">
+
+                <div class="grid-2-cols">
+                    <div class="form-group">
+                        <label>Judul Publikasi</label>
+                        <input type="text" id="input-judul" name="judul" class="form-control" placeholder="Tulis judul yang menarik..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select id="input-kategori" name="kategori" class="form-control" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="berita">Berita IMM</option>
+                            <option value="proker">Program Kerja</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- TAMBAHAN: Kolom Nama Penulis -->
+                <div class="form-group">
+                    <label>Nama Penulis</label>
+                    <input type="text" id="input-penulis" name="penulis" class="form-control" placeholder="Contoh: Tim Redaksi IMM FIKTI" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Unggah Dokumentasi (Foto)</label>
+                    <input type="file" id="input-foto" name="foto" class="form-control" accept="image/png, image/jpeg" style="background: white; padding: 0.6rem;" required>
+                    <span class="file-info" id="info-foto"><i class="fa-solid fa-circle-info"></i> Gunakan file JPG/PNG resolusi tinggi agar tampilan web jernih.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Isi Konten Lengkap</label>
+                    <textarea id="input-isi" name="isi" class="form-control" placeholder="Tuliskan rincian kegiatan, press release, atau penjelasan program kerja di sini..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSimpan">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Publikasikan Sekarang
+                </button>
+                <button type="button" class="btn-cancel" id="btnBatal" onclick="batalkanEdit()">
+                    Batalkan Perubahan
+                </button>
+            </form>
+        </div>
+
+        <!-- BAGIAN 2: TABEL RIWAYAT DATA -->
+        <div class="header-section" style="margin-top: 4rem; margin-bottom: 1.5rem;">
+            <h1>RIWAYAT PUBLIKASI</h1>
+            <p>Daftar semua berita dan program kerja yang sudah tayang di website.</p>
+        </div>
+
+        <div class="form-card" style="padding: 0; overflow: hidden; max-width: 850px;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Foto</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Judul</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155;">Kategori</th>
+                        <th style="padding: 1rem 1.5rem; color: #334155; text-align: center;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-riwayat">
+                    <tr><td colspan="4" style="text-align: center; padding: 2rem;">Memuat data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT LOGIKA JAVASCRIPT -->
+    <script>
+        let dataGlobal = []; 
+
+        // 1. LOGIKA UNTUK SUBMIT FORM (CREATE & UPDATE)
+        document.getElementById('formAdmin').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const tombol = document.getElementById('btnSimpan');
+            const editId = document.getElementById('edit-id').value; 
+            
+            tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...';
+            tombol.disabled = true;
+
+            const formData = new FormData(form);
+            
+            let urlAPI = 'http://127.0.0.1:5000/tambah-berita';
+            if (editId !== '') {
+                urlAPI = `http://127.0.0.1:5000/edit-berita/${editId}`;
+            }
+
+            try {
+                const respon = await fetch(urlAPI, { method: 'POST', body: formData });
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses') {
+                    alert(editId ? 'Data sukses diperbarui!' : 'Data berhasil tayang!');
+                    batalkanEdit(); 
+                    muatTabelAdmin(); 
+                } else {
+                    alert('Gagal: ' + hasil.pesan);
+                }
+            } catch (error) {
+                alert('Gagal terhubung. Pastikan terminal Python app.py sedang berjalan.');
+            } finally {
+                tombol.disabled = false;
+                if (document.getElementById('edit-id').value !== '') {
+                    tombol.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
+                } else {
+                    tombol.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Publikasikan Sekarang';
+                }
+            }
+        });
+
+        // 2. LOGIKA UNTUK MENGAMBIL TABEL (READ)
+        async function muatTabelAdmin() {
+            const tbody = document.getElementById('tabel-riwayat');
+            try {
+                const respon = await fetch('http://127.0.0.1:5000/ambil-berita');
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses' && hasil.data.length > 0) {
+                    dataGlobal = hasil.data; 
+                    tbody.innerHTML = ''; 
+                    
+                    hasil.data.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #e2e8f0';
+                        
+                        tr.innerHTML = `
+                            <td style="padding: 1rem 1.5rem;">
+                                <img src="${item.foto_url}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 6px;">
+                            </td>
+                            <td style="padding: 1rem 1.5rem; font-weight: 500; color: #0f172a;">${item.judul}</td>
+                            <td style="padding: 1rem 1.5rem;">
+                                <span style="background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                                    ${item.kategori.toUpperCase()}
+                                </span>
+                            </td>
+                            <td style="padding: 1rem 1.5rem; text-align: center;">
+                                <button onclick="siapkanEdit('${item._id}')" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                                <button onclick="hapusData('${item._id}')" class="btn-action btn-delete"><i class="fa-solid fa-trash-can"></i> Hapus</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #64748b;">Belum ada data publikasi.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Gagal memuat tabel:", error);
+            }
+        }
+
+        // 3. LOGIKA UNTUK MENGUBAH TAMPILAN JADI MODE EDIT
+        function siapkanEdit(id) {
+            const dataTerpilih = dataGlobal.find(item => item._id === id);
+            if (!dataTerpilih) return;
+
+            document.getElementById('input-judul').value = dataTerpilih.judul;
+            document.getElementById('input-kategori').value = dataTerpilih.kategori;
+            document.getElementById('input-isi').value = dataTerpilih.isi_konten;
+            // TAMBAHAN: Mengisi input penulis
+            document.getElementById('input-penulis').value = dataTerpilih.penulis || 'Tim Redaksi IMM FIKTI';
+            document.getElementById('edit-id').value = id; 
+
+            document.getElementById('form-title').innerText = "Edit Publikasi";
+            document.getElementById('form-subtitle').innerText = "Silakan ubah informasi yang keliru pada kolom di bawah ini.";
+            
+            const btnSimpan = document.getElementById('btnSimpan');
+            btnSimpan.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan';
+            btnSimpan.style.backgroundColor = '#0284c7'; 
+
+            document.getElementById('btnBatal').style.display = 'block';
+
+            const inputFoto = document.getElementById('input-foto');
+            inputFoto.removeAttribute('required');
+            document.getElementById('info-foto').innerHTML = '<i class="fa-solid fa-circle-info"></i> Biarkan kosong jika tidak ingin mengubah foto.';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 4. LOGIKA UNTUK MEMBATALKAN MODE EDIT
+        function batalkanEdit() {
+            document.getElementById('formAdmin').reset(); 
+            document.getElementById('edit-id').value = ''; 
+            
+            document.getElementById('form-title').innerText = "Publikasi Baru";
+            document.getElementById('form-subtitle').innerText = "Unggah berita atau dokumentasi program kerja himpunan ke database.";
+            
+            const btnSimpan = document.getElementById('btnSimpan');
+            btnSimpan.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Publikasikan Sekarang';
+            btnSimpan.style.backgroundColor = 'var(--primary)'; 
+            
+            document.getElementById('btnBatal').style.display = 'none'; 
+            
+            document.getElementById('input-foto').setAttribute('required', 'true');
+            document.getElementById('info-foto').innerHTML = '<i class="fa-solid fa-circle-info"></i> Gunakan file JPG/PNG resolusi tinggi agar tampilan web jernih.';
+        }
+
+        // 5. LOGIKA UNTUK MENGHAPUS DATA (DELETE)
+        async function hapusData(id) {
+            const yakin = confirm("Apakah kamu yakin ingin menghapus data ini secara permanen?");
+            if (!yakin) return;
+
+            try {
+                const respon = await fetch(`http://127.0.0.1:5000/hapus-berita/${id}`, { method: 'DELETE' });
+                const hasil = await respon.json();
+
+                if (hasil.status === 'sukses') {
+                    alert('Data berhasil dihapus!');
+                    muatTabelAdmin(); 
+                    if (document.getElementById('edit-id').value === id) {
+                        batalkanEdit(); 
+                    }
+                } else { alert('Gagal menghapus: ' + hasil.pesan); }
+            } catch (error) { alert('Terjadi kesalahan saat menghubungi server.'); }
+        }
+
+        window.onload = muatTabelAdmin;
+    </script>
+
+    <!-- REVISI: Script Upload Banner -->
+    <script>
+        const formBanner = document.getElementById('formBanner');
+        
+        if (formBanner) {
+            formBanner.addEventListener('submit', async function(e) {
+                e.preventDefault(); 
+                
+                const tombol = document.getElementById('btnSimpanBanner');
+                const teksAwal = tombol.innerHTML;
+                
+                tombol.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sedang Mengunggah...';
+                tombol.disabled = true; 
+                
+                try {
+                    const respon = await fetch('http://127.0.0.1:5000/upload-banner', {
+                        method: 'POST', 
+                        body: new FormData(this)
+                    });
+                    
+                    const hasil = await respon.json();
+                    
+                    if(respon.ok && hasil.status === 'sukses') {
+                        alert(' Mantap! ' + hasil.pesan);
+                        formBanner.reset(); 
+                    } else {
+                        alert(' Gagal dari server: ' + (hasil.pesan || 'Kesalahan tidak diketahui.'));
+                    }
+                } catch (err) { 
+                    console.error("Detail Error:", err);
+                    alert(' Gagal terhubung ke server Python! Pastikan app.py sedang berjalan (Run).'); 
+                } finally {
+                    tombol.innerHTML = teksAwal;
+                    tombol.disabled = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

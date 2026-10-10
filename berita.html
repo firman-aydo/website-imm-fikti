@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita - PK IMM FIKTI UMSU</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- NAVBAR SECTION -->
+    <nav class="navbar-new">
+        <!-- Tambahkan style position relative di baris bawah ini -->
+        <div class="container nav-wrapper" style="position: relative;"> 
+            <div class="brand-logo">
+                <img src="assets/logo-umsu.png" alt="Logo UMSU" class="logo-kampus">
+                <img src="assets/logo-unggul.png" alt="Logo Akreditasi Unggul" class="logo-unggul">
+                <img src="assets/logo-imm.png" alt="PK IMM FIKTI UMSU" class="logo-imm">
+            </div>
+            
+            <!-- TOMBOL HAMBURGER -->
+            <button class="hamburger" id="hamburger-menu">&#9776;</button>
+            
+            <ul class="nav-menu">
+                <!-- Isi menu milikmu tetap seperti biasa di sini -->
+                <li><a href="index.html" class="nav-link">Beranda</a></li>
+                <li><a href="tentang.html" class="nav-link">Tentang IMM</a></li>
+                <li><a href="pengurus.html" class="nav-link">Kepengurusan</a></li>
+                <li><a href="proker.html" class="nav-link">Program Kerja</a></li>
+                <li><a href="berita.html" class="nav-link active">Berita IMM</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="navbar-divider"></div>
+
+    <!-- HIGHLIGHT HERO GRID SECTION -->
+    <section class="container">
+        <div class="hero-grid-proker" id="wadah-hero-berita">
+            <!-- Akan diisi 4 berita terbaru secara otomatis oleh JavaScript -->
+        </div>
+    </section>
+
+    <!-- TOOLBAR (JUDUL & PENCARIAN) -->
+    <section class="container">
+        <div class="proker-toolbar">
+            <h2 class="toolbar-title">Berita</h2>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button type="submit">
+                    <!-- Ikon Kaca Pembesar SVG -->
+                    <svg width="16" height="16" fill="white" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIST BERITA (Otomatis dari Database) -->
+    <section class="container" style="margin-bottom: 5rem;">
+        <div class="grid grid-proker" id="wadah-semua-berita">
+            <p style="grid-column: 1 / -1; text-align: center; color: #333;">Memuat seluruh berita IMM...</p>
+        </div>
+    </section>
+
+    <!-- FOOTER BOTTOM BAR (Merah) -->
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Pimpinan Komisariat IMM FIKTI UMSU. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <!-- MENGHUBUNGKAN KE JAVASCRIPT EXTERNAL -->
+    <script src="script.js"></script>
+</body>
+</html>

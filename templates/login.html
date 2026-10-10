@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - PK IMM FIKTI UMSU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .login-container h2 {
+            color: #111827;
+            margin-bottom: 0.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .login-container p {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            border-color: #dc2626; 
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: #dc2626; 
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 0.5rem;
+        }
+        .btn-login:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo-icon">🛡️</div>
+        <h2>Portal Admin</h2>
+        <p>PK IMM FIKTI UMSU</p>
+
+        <!-- Form ini akan mengirim data ke rute /login di app.py -->
+        <form action="" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <!-- Atribut name="username" ini wajib sama dengan yang di app.py -->
+                <input type="text" id="username" name="username" placeholder="Masukkan username" required autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <!-- Atribut name="password" ini wajib sama dengan yang di app.py -->
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+            </div>
+
+            <button type="submit" class="btn-login">Masuk ke Dashboard</button>
+        </form>
+    </div>
+
+</body>
+</html>
